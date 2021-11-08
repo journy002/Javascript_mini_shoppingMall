@@ -13,7 +13,6 @@ function displayItems(items) {
     // const html = items.map(item => createHTMLString(item)).join();
     // console.log(html,'htmlhtml')
     container.innerHTML = items.map(item => createHTMLString(item)).join('');
-
 }
 
 // Create HTML list item from the given item
@@ -45,15 +44,17 @@ function onButtonClick(event,items) {
 
 function setEventListeners(items) {
     const logo = document.querySelector('.logo');
-    const buttons = document.querySelector('.buttons');
+    const buttons = document.querySelector('.buttons'); // 하나 하나에 이벤트를 거는것 보다 이벤트를 감싸고 있는 컨테이너에 이벤트를 달아 관리할 수 있게끔 하는게 더 효율적이다.
     logo.addEventListener('click', () => displayItems(items));
     buttons.addEventListener('click', () => onButtonClick(event, items));
 }
 
 // main
+// loadItems()함수에 바로 .then을 사용할 수 있는 이유는
+// loadItems 함수가 비동기 처리(Promise) 방식이기 때문에 .then() 사용 가능 
 loadItems()
-    .then(items => {
+    .then((items) => {
         displayItems(items);
         setEventListeners(items)
     })
-    .catch(console.log());
+    .catch((e) => console.log(e));
